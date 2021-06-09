@@ -1,0 +1,37 @@
+.App {
+  padding: 20px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 20px 0
+}
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+.nav-link {
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.nav-link.active {
+  border-bottom: 1px solid lightseagreen;
+  color: lightseagreen;
+}
+
+.error {
+  color: red;
+}
