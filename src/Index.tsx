@@ -9,12 +9,15 @@ import {BrowserRouter as Router,
 import LoginPage from "./Login";
 import RegisterPage from "./RegisterPage";
 import ItemPage from "./ItemPage";
+import { ProvideClientRequest } from "./hooks";
 
 export default function Index() {
   return (
     <>
       <Router>
-        <App />
+        <ProvideClientRequest>
+          <App />
+        </ProvideClientRequest>
       </Router>
     </>
   )

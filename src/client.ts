@@ -144,4 +144,9 @@ export class Client {
     const response = this.client.delete(`/items/${itemId}`)
     return handleResponse<void>(response);
   }
+
+  async getCurrentUser(): AsyncResponse<User> {
+    const response = this.client.get("/user/me/");
+    return handleResponse<User>(response)
+  }
 }

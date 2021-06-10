@@ -1,5 +1,5 @@
 import { History } from "history";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { AsyncResponse, Client } from "./client";
 import { User, UserTemplate } from "./types";
@@ -9,13 +9,14 @@ export type ClientRequest = (request: (client: Client) => AsyncResponse<any>) =>
 const client = new Client()
 
 export function useProvideClientRequest(history: History) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [currentUser, setCurrentUser] = useState<User>();
 
   async function clientRequest<T extends any>(request: (client: Client) => AsyncResponse<T>): AsyncResponse<T> {
     const {res, error} = await request(client);
     if (error && error.errorCode === 401) {
       setIsAuthenticated(false);
-      history.push("/login")
+      history.push("/login");
     }
     return {res, error}
   }
@@ -38,13 +39,25 @@ export function useProvideClientRequest(history: History) {
     const {res} = response;
 
     if (res) {
-      await client.login(user.username, user.password);
+      await login(user.username, user.password);
     }
 
     return response;
   }
 
-  return {clientRequest, login, register, isAuthenticated}
+  useEffect(() => {
+    clientRequest(client => client.getCurrentUser())
+      .then(({res}) => {
+        if (res) {
+          setIsAuthenticated(true);
+          setCurrentUser(res);
+        } else {
+          setIsAuthenticated(false);
+        }
+      })
+  }, [])
+
+  return {clientRequest, login, register, isAuthenticated, currentUser}
 }
 
 const clientRequestContext = createContext({} as ReturnType<typeof useProvideClientRequest>);
