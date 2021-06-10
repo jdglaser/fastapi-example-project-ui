@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {NavLink, Route, Switch, useHistory} from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
 import { BeatLoader } from 'react-spinners';
-import './App.css';
-import {ProvideClientRequest, useClientRequest } from './hooks';
+import { useClientRequest } from '../hooks';
+import '../style/App.css';
 import ItemPage from "./ItemPage";
 import LoginPage from './Login';
 import RegisterPage from './RegisterPage';

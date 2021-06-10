@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useClientRequest } from "./hooks";
+import { useClientRequest } from "../hooks";
 import TextInput from "./TextInput";
-import { Item } from "./types";
+import { Item } from "../types";
 import {BeatLoader} from "react-spinners"
 
 export default function ItemPage() {

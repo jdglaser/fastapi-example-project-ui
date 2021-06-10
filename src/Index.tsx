@@ -1,14 +1,6 @@
 import React from "react";
-import App from "./App"
-import {BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-  useHistory} from "react-router-dom";
-import LoginPage from "./Login";
-import RegisterPage from "./RegisterPage";
-import ItemPage from "./ItemPage";
+import App from "./app/App"
+import {BrowserRouter as Router} from "react-router-dom";
 import { ProvideClientRequest } from "./hooks";
 
 export default function Index() {

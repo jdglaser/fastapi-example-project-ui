@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { useClientRequest } from "./hooks";
+import { useClientRequest } from "../hooks";
 
 export default function UserAccountPage() {
   const {currentUser, logout} = useClientRequest()

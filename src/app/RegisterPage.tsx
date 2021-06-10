@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useClientRequest } from "./hooks";
+import { useClientRequest } from "../hooks";
 import TextInput from "./TextInput";
-import { Optional, UserTemplate } from "./types";
+import { Optional, UserTemplate } from "../types";
 
 export default function RegisterPage() {
   const {register} = useClientRequest();

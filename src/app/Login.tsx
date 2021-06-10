@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ClientRequest, useClientRequest } from "./hooks";
-import { Optional } from "./types";
+import { ClientRequest, useClientRequest } from "../hooks";
+import { Optional } from "../types";
 
 export default function LoginPage() {
   const {clientRequest, login, isAuthenticated} = useClientRequest();
