@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useClientRequest } from "./hooks";
 import TextInput from "./TextInput";
 import { Item } from "./types";
+import {BeatLoader} from "react-spinners"
 
 export default function ItemPage() {
   const {clientRequest} = useClientRequest();
@@ -10,6 +11,7 @@ export default function ItemPage() {
 
   const [itemName, setItemName] = useState<string>("");
   const [itemDescription, setItemDescription] = useState<string>("");
+  const [loading, setLoadin] = useState<boolean>(true);
 
   async function loadItems() {
     const {res, error} = await clientRequest(client => client.getItems());
@@ -47,28 +49,42 @@ export default function ItemPage() {
   }
 
   useEffect(() => {
-    loadItems();
+    setLoadin(true)
+    loadItems().then(res => {
+      setLoadin(false);
+    });
   }, [])
 
   const itemList = items.map(item => {
     return (
       <li key={item.name}>
-        {item.name}: {item.description} 
+        <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
+        <span><b>{item.name}</b>: {item.description}</span>
         <span role="button" 
+              className="trash-icon"
               tabIndex={0} 
               style={{cursor: "pointer"}}
-              onClick={() => onDelete(item.id)}>❌</span>
+              onClick={() => onDelete(item.id)}>🗑️</span>
+        </div>
       </li>
     )
   })
 
+  if (loading) {
+    return (
+      <div style={{display: "flex", justifyContent: "center", height: "100%", alignItems: "center"}}>
+        <BeatLoader color="lightseagreen" loading={loading} size={15} margin={3} />
+      </div>
+    )
+  }
+
   return (
-    <>
-      <h1>Items</h1>
+    <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
+      <h2>Items</h2>
       <div className="error">
         {error}
       </div>
-      <h2>Create new item</h2>
+      <h3>Create new item</h3>
       <div style={{display: "flex", flexDirection: "column", gap: "10px", width: "fit-content", marginBottom: "10px"}}>
         <TextInput label="Name"
                    type="text"
@@ -82,10 +98,15 @@ export default function ItemPage() {
           Submit
         </button>
       </div>
-      <h2>Item List</h2>
-      <ul>
-        {itemList}
-      </ul>
-    </>
+        <h3>Item List</h3>
+        <ol style={{height: "200px", 
+          width: "fit-content",
+          overflowY: "scroll", 
+          border: "1px solid lightseagreen",
+          borderRadius: "10px",
+          padding: "5px 25px"}}>
+          {itemList}
+        </ol>
+    </div>
   )
 }

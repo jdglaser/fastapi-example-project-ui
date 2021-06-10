@@ -11,6 +11,20 @@ const client = new Client()
 export function useProvideClientRequest(history: History) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<User>();
+  const [loadingUserInfo, setLoadingUserInfo] = useState<boolean>(true);
+
+  async function updateUser() {
+    setLoadingUserInfo(true);
+    clientRequest(client => client.getCurrentUser())
+      .then(({res}) => {
+        if (res) {
+          setIsAuthenticated(true);
+          setCurrentUser(res);
+        } else {
+          setIsAuthenticated(false);
+        }
+    }).then(() => setLoadingUserInfo(false))
+  }
 
   async function clientRequest<T extends any>(request: (client: Client) => AsyncResponse<T>): AsyncResponse<T> {
     const {res, error} = await request(client);
@@ -26,12 +40,21 @@ export function useProvideClientRequest(history: History) {
     const {res, error} = response;
     if (!error) {
       setIsAuthenticated(true);
+      updateUser();
       history.push("/items")
     } else {
       setIsAuthenticated(false);
     }
 
     return response;
+  }
+
+  async function logout() {
+    await client.logout();
+
+    setIsAuthenticated(false);
+    setCurrentUser({} as User);
+    history.push("/login")
   }
 
   async function register(user: UserTemplate): AsyncResponse<User> {
@@ -46,18 +69,10 @@ export function useProvideClientRequest(history: History) {
   }
 
   useEffect(() => {
-    clientRequest(client => client.getCurrentUser())
-      .then(({res}) => {
-        if (res) {
-          setIsAuthenticated(true);
-          setCurrentUser(res);
-        } else {
-          setIsAuthenticated(false);
-        }
-      })
+    updateUser()
   }, [])
 
-  return {clientRequest, login, register, isAuthenticated, currentUser}
+  return {clientRequest, login, register, logout, isAuthenticated, currentUser, loadingUserInfo}
 }
 
 const clientRequestContext = createContext({} as ReturnType<typeof useProvideClientRequest>);

@@ -1,5 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+  color: white;
+  background-color: lightseagreen;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  -webkit-transition: opacity 0.3s;
+  opacity: 100%;
+  width: fit-content
+}
+
+button:hover {
+  opacity: 50%;
+}
+
+button:disabled {
+  opacity: 50%;
+  cursor: default;
+}
+
 .App {
-  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f8f7f7;
+}
+
+.logo {
+  text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  height: 100%;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.nav-bar {
+  width: 90%;
+  border-radius: 5px;
+  background-color: lightseagreen;
+  margin: 0;
+  padding: 5px;
+  margin: 10px 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin: 0px 0
+}
+
+.content {
+  width: auto;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
 }
 
 .form {
@@ -10,13 +91,6 @@
   margin-top: 10px;
 }
 
-nav {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin: 20px 0
-}
-
 a {
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
@@ -25,13 +99,21 @@ a {
 .nav-link {
   font-size: larger;
   font-weight: bolder;
+  color: white;
+  height: 100%;
+  padding: 5px;
 }
 
 .nav-link.active {
-  border-bottom: 1px solid lightseagreen;
+  background-color: white;
   color: lightseagreen;
+  border-radius: 5px;
 }
 
 .error {
   color: red;
+}
+
+.trash-icon:hover {
+  opacity: 50%;
 }

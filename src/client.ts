@@ -120,6 +120,11 @@ export class Client {
     })
   }
 
+  async logout(): AsyncResponse<void> {
+    const response = this.refreshClient.post("/auth/logout");
+    return handleResponse(response);
+  }
+
   async register(user: UserTemplate): AsyncResponse<User> {
     const response = this.client.post(`/auth/`, user);
     return handleResponse<User>(response);
