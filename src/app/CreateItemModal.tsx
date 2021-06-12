@@ -18,6 +18,8 @@ export default function CreateItemModal(props: CreateItemModalProps) {
 
   function localOnClose() {
     setOverlayIsOn(false);
+    setItemDescription("");
+    setItemName("");
     onClose();
   }
 
@@ -39,10 +41,14 @@ export default function CreateItemModal(props: CreateItemModalProps) {
       setOverlayIsOn(false);
     }
   }, [open])
+
+  if (!open) {
+    return (<></>);
+  }
   
   return (
     <>
-      <div className={`modal${open ? " open" : ""}`}>
+      <div className="modal">
         <div className="modal-header">
             <div className="modal-header-title">Create new item</div>
             <div className="x-close" role="button" tabIndex={0} onClick={localOnClose}>✕</div>
