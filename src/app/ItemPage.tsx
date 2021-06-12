@@ -65,9 +65,10 @@ export default function ItemPage() {
       <div key={item.name}>
         <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
           <input type="checkbox"
-                 onClick={() => onComplete(item.name, {description: item.description, completed: !item.completed})}></input>
-          <div className={`item-content${item.completed ? " completed" : ""}`}>
-            <span><b>{item.name}</b>: {item.description}</span>
+                 checked={item.completed}
+                 onChange={() => onComplete(item.name, {description: item.description, completed: !item.completed})}></input>
+          <div className="item-content">
+            <span className={`${item.completed ? " completed" : ""}`}><b>{item.name}</b>: {item.description}</span>
             <span role="button" 
                   className="trash-icon"
                   tabIndex={0} 

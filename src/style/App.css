@@ -126,7 +126,14 @@ input[type="text"]:focus, input[type="date"]:focus, input[type="password"]:focus
   box-shadow: 0px 0px 0px 2px lightseagreen;
 }
 
-.item-content.completed {
+.item-content {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.completed {
   text-decoration: line-through;
 }
 
