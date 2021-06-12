@@ -1,5 +1,7 @@
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 h1, h2, h3, h4 {
@@ -8,6 +10,78 @@ h1, h2, h3, h4 {
 
 body {
   margin: 0;
+}
+
+.App {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f8f7f7;
+}
+
+.screen-overlay {
+  height: 100%;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 40%;
+}
+
+.screen-overlay.hidden {
+  visibility: hidden;
+}
+
+.blocker.open {
+  visibility: initial;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  border-radius: 10px;
+  background-color: white;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: fit-content;
+}
+
+.modal.open {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: fit-content;
+  padding: 10px 25px 25px 25px;
+  justify-content: flex-start;
+}
+
+.modal-header {
+  display: flex;
+  gap: 25px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightseagreen;
+  width: 100%;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
 }
 
 button {
@@ -34,14 +108,26 @@ button:disabled {
   cursor: default;
 }
 
-.App {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: #f8f7f7;
+input[type="text"], input[type="date"], input[type="password"] {
+  padding: 5px;
+  padding-left: 15px;
+  border: 1px solid lightseagreen;
+  border-radius: 50px;
+  font-size: medium;
+  outline: none;
+  box-sizing:content-box;
+  box-shadow: 0px 0px 0px 1px lightseagreen;
+  transition: box-shadow 0.3s linear;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, input[type="password"]:focus {
+  outline: none;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px 2px lightseagreen;
+}
+
+.item-content.completed {
+  text-decoration: line-through;
 }
 
 .logo {
@@ -73,10 +159,13 @@ nav {
 
 .content {
   width: auto;
+  min-height: 85vh;
+  height: fit-content;
   padding: 40px;
+  margin-bottom: 20px;
   border-radius: 15px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  height: 90%;
+  height: 80%;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -115,5 +204,26 @@ a {
 }
 
 .trash-icon:hover {
+  opacity: 50%;
+}
+
+.x-close {
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  background-color: lightseagreen;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 100%;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  text-align: right;
+}
+
+.x-close:hover {
   opacity: 50%;
 }

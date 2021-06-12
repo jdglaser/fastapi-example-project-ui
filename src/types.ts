@@ -31,8 +31,13 @@ export interface RegistrationError {
 
 export interface Item {
   id: number
-  name: number
-  description: number
+  name: string
+  description: string
+  completed: boolean
+}
+
+export interface ItemUpdate {
+  description: string
   completed: boolean
 }
 

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { AuthToken, Item, ItemTemplate, Optional, User, UserTemplate } from "./types";
+import { AuthToken, Item, ItemTemplate, ItemUpdate, Optional, User, UserTemplate } from "./types";
 
 export const baseUrl = "http://localhost:8000"
 
@@ -148,6 +148,11 @@ export class Client {
   async deleteItem(itemId: number): AsyncResponse<void> {
     const response = this.client.delete(`/items/${itemId}`)
     return handleResponse<void>(response);
+  }
+
+  async updateItem(item_name: string, item: ItemUpdate): AsyncResponse<Item> {
+    const response = this.client.put(`/items/`, item, {params: {name: item_name}})
+    return handleResponse<Item>(response);
   }
 
   async getCurrentUser(): AsyncResponse<User> {

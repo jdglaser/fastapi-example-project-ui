@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useClientRequest } from "../hooks";
 import TextInput from "./TextInput";
-import { Item } from "../types";
+import { Item, ItemUpdate } from "../types";
 import {BeatLoader} from "react-spinners"
+import CreateItemModal from "./CreateItemModal";
 
 export default function ItemPage() {
-  const {clientRequest} = useClientRequest();
+  const {clientRequest, overlayIsOn} = useClientRequest();
   const [items, setItems] = useState<Item[]>([]);
   const [error, setError] = useState<string>("");
-
-  const [itemName, setItemName] = useState<string>("");
-  const [itemDescription, setItemDescription] = useState<string>("");
   const [loading, setLoadin] = useState<boolean>(true);
+
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  function onClose() {
+    setModalOpen(false);
+    loadItems();
+  }
 
   async function loadItems() {
     const {res, error} = await clientRequest(client => client.getItems());
@@ -26,17 +31,6 @@ export default function ItemPage() {
     }
   }
 
-  async function onCreate() {
-    const {res, error} = await clientRequest(client => client.createItem({name: itemName, description: itemDescription}))
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    setError("")
-    await loadItems()
-  }
-
   async function onDelete(itemId: number) {
     const {res, error} = await clientRequest(client => client.deleteItem(itemId))
     if (error) {
@@ -48,6 +42,17 @@ export default function ItemPage() {
     await loadItems()
   }
 
+  async function onComplete(item_name: string, item: ItemUpdate) {
+    const {res, error} = await clientRequest(client => client.updateItem(item_name, item))
+    if (error) {
+      setError(error.message)
+      return;
+    }
+
+    setError("");
+    await loadItems();
+  }
+
   useEffect(() => {
     setLoadin(true)
     loadItems().then(res => {
@@ -57,16 +62,20 @@ export default function ItemPage() {
 
   const itemList = items.map(item => {
     return (
-      <li key={item.name}>
+      <div key={item.name}>
         <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
-        <span><b>{item.name}</b>: {item.description}</span>
-        <span role="button" 
-              className="trash-icon"
-              tabIndex={0} 
-              style={{cursor: "pointer"}}
-              onClick={() => onDelete(item.id)}>🗑️</span>
+          <input type="checkbox"
+                 onClick={() => onComplete(item.name, {description: item.description, completed: !item.completed})}></input>
+          <div className={`item-content${item.completed ? " completed" : ""}`}>
+            <span><b>{item.name}</b>: {item.description}</span>
+            <span role="button" 
+                  className="trash-icon"
+                  tabIndex={0} 
+                  style={{cursor: "pointer"}}
+                  onClick={() => onDelete(item.id)}>🗑️</span>
+          </div>
         </div>
-      </li>
+      </div>
     )
   })
 
@@ -80,33 +89,30 @@ export default function ItemPage() {
 
   return (
     <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-      <h2>Items</h2>
+      <CreateItemModal onClose={onClose} open={modalOpen} />
       <div className="error">
         {error}
       </div>
-      <h3>Create new item</h3>
-      <div style={{display: "flex", flexDirection: "column", gap: "10px", width: "fit-content", marginBottom: "10px"}}>
-        <TextInput label="Name"
-                   type="text"
-                   value={itemName}
-                   setValue={setItemName} />
-        <TextInput label="Description"
-                   type="text"
-                   value={itemDescription}
-                   setValue={setItemDescription} />
-        <button onClick={onCreate} style={{width: "fit-content"}}>
-          Submit
-        </button>
+      <button style={overlayIsOn ? {"transition": "none", "opacity": "100%"} : {}} onClick={() => setModalOpen(true)}>Create</button>
+      <div className="item-list-container" 
+           style={{height: "200px", 
+                    width: "100%",
+                    overflowY: "scroll", 
+                    border: "1px solid lightseagreen",
+                    borderRadius: "10px",
+                    padding: "5px 25px",
+                    marginTop: "10px"}}>
+        {itemList.length !== 0 ? 
+          (
+            <>
+              {itemList}
+            </>
+          ) : 
+          (
+            <div>No items to show...</div>
+          )
+        }
       </div>
-        <h3>Item List</h3>
-        <ol style={{height: "200px", 
-          width: "fit-content",
-          overflowY: "scroll", 
-          border: "1px solid lightseagreen",
-          borderRadius: "10px",
-          padding: "5px 25px"}}>
-          {itemList}
-        </ol>
     </div>
   )
 }

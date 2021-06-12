@@ -7,11 +7,11 @@ import ItemPage from "./ItemPage";
 import LoginPage from './Login';
 import RegisterPage from './RegisterPage';
 import UserAccountPage from './UserAccountPage';
+import ScreenOverlay from "./ScreenOverlay";
 
 export default function App() {
-  const [tab, setTab] = useState<string>("login");
-
-  const {isAuthenticated, loadingUserInfo} = useClientRequest();
+  const {isAuthenticated, loadingUserInfo, overlayIsOn} = useClientRequest();
+  const {} = useClientRequest()
 
   if (loadingUserInfo) {
     return (
@@ -44,6 +44,7 @@ export default function App() {
           </nav>
         </div>
         <div className="content">
+          <ScreenOverlay isOn={overlayIsOn}/>
             <Switch>
               <Route path="/login">
                 <LoginPage />

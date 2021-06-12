@@ -18,11 +18,11 @@ export default function TextInput<T extends TextInputType>(props: TextInputProps
     <>
       <label style={{width: "fit-content"}}>{label}: </label>
         <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
-        <input type={type}
-                value={value}
-                onChange={(evt) => setValue(evt.target.value)} />
-        <div className="error">{error ? errorMessage : ""}</div>
-      </div>
+          <input type={type}
+                  value={value}
+                  onChange={(evt) => setValue(evt.target.value)} />
+          <div className="error">{error ? errorMessage : ""}</div>
+        </div>
     </>
   )
 }

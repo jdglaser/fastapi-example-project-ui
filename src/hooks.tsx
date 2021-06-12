@@ -75,12 +75,21 @@ export function useProvideClientRequest(history: History) {
   return {clientRequest, login, register, logout, isAuthenticated, currentUser, loadingUserInfo}
 }
 
-const clientRequestContext = createContext({} as ReturnType<typeof useProvideClientRequest>);
+export function useOverlay() {
+  const [overlayIsOn, setOverlayIsOn] = useState<boolean>(false);
+
+  return {overlayIsOn, setOverlayIsOn}
+}
+
+type blah = ReturnType<typeof useProvideClientRequest> & ReturnType<typeof useOverlay>
+
+const clientRequestContext = createContext({} as blah);
 
 export function ProvideClientRequest({children}: any) {
   const history = useHistory();
   const clientRequest = useProvideClientRequest(history);
-  return <clientRequestContext.Provider value={clientRequest}>{children}</clientRequestContext.Provider>;
+  const overlay = useOverlay();
+  return <clientRequestContext.Provider value={{...clientRequest, ...overlay}}>{children}</clientRequestContext.Provider>;
 }
 
 export const useClientRequest = () => {

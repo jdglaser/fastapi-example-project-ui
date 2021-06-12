@@ -10,8 +10,7 @@ export default function UserAccountPage() {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-      <h2>My Account</h2>
+    <div style={{display: "flex", flexDirection: "column", gap: "20px"}}>
       <div style={{display: "grid",
                    width: "fit-content",
                    gridTemplateColumns: "auto auto",
